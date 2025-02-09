@@ -1,0 +1,87 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String     @id @default(uuid()) // Уникальный идентификатор пользователя
+  full_name       String // Имя пользователя
+  email           String     @unique // Электронная почта пользователя (должна быть уникальной)
+  password        String // Пароль для аутентификации пользователя
+  role            UserRole // Роль пользователя (рекрутер или кандидат)
+  sessions        Session[]  @relation("SessionParticipants") // Сессии, в которых участвует пользователь
+  createdAt       DateTime   @default(now()) // Дата и время создания записи
+  updatedAt       DateTime   @updatedAt // Дата и время последнего обновления записи
+  createdSessions Session[]  @relation("CreatedSessions") // Сессии, созданные пользователем (рекрутером)
+  solutions       Solution[] // Решения, предоставленные пользователем (кандидатом)
+  feedbacks       Feedback[] // Обратная связь, оставленная пользователем (рекрутером)
+}
+
+model Session {
+  id          String     @id @default(uuid()) // Уникальный идентификатор сессии
+  title       String // Название сессии
+  startTime   DateTime // Время начала сессии
+  duration    Int // Продолжительность сессии в минутах
+  createdBy   User       @relation("CreatedSessions", fields: [createdById], references: [id]) // Рекрутер, создавший сессию
+  createdById String // ID рекрутера, создавшего сессию
+  candidates  User[]     @relation("SessionParticipants") // Кандидаты, участвующие в сессии
+  tasks       Task[]     @relation("SessionTasks") // Задачи, предложенные в рамках сессии
+  createdAt   DateTime   @default(now()) // Дата и время создания записи
+  updatedAt   DateTime   @updatedAt // Дата и время последнего обновления записи
+  feedbacks   Feedback[] // Обратная связь, оставленная по этой сессии
+}
+
+model Task {
+  id          String     @id @default(uuid()) // Уникальный идентификатор задачи
+  title       String // Название задачи
+  description String // Описание задачи
+  difficulty  Difficulty // Уровень сложности задачи (легкая, средняя, сложная)
+  session     Session?   @relation("SessionTasks", fields: [sessionId], references: [id]) // Сессия, к которой относится задача
+  sessionId   String? // ID сессии, к которой относится задача (может быть null)
+  solutions   Solution[] // Решения, предоставленные кандидатами для этой задачи
+  createdAt   DateTime   @default(now()) // Дата и время создания записи
+  updatedAt   DateTime   @updatedAt // Дата и время последнего обновления записи
+}
+
+model Solution {
+  id          String   @id @default(uuid()) // Уникальный идентификатор решения
+  code        String // Код, написанный кандидатом для решения задачи
+  isCorrect   Boolean // Логическое значение, указывающее, является ли решение правильным
+  task        Task     @relation(fields: [taskId], references: [id]) // Задача, на которую дано решение
+  taskId      String // ID задачи, на которую дано решение
+  candidate   User     @relation(fields: [candidateId], references: [id]) // Кандидат, предоставивший решение
+  candidateId String // ID кандидата, предоставившего решение
+  createdAt   DateTime @default(now()) // Дата и время создания записи
+  updatedAt   DateTime @updatedAt // Дата и время последнего обновления записи
+}
+
+model Feedback {
+  id          String   @id @default(uuid()) // Уник альный идентификатор обратной связи
+  comment     String // Комментарий рекрутера о производительности кандидата
+  score       Int // Оценка кандидата по определенной шкале (например, от 1 до 10)
+  session     Session  @relation(fields: [sessionId], references: [id]) // Сессия, к которой относится обратная связь
+  sessionId   String // ID сессии, к которой относится обратная связь
+  candidate   User     @relation(fields: [candidateId], references: [id]) // Кандидат, для которого оставлена обратная связь
+  candidateId String // ID кандидата, для которого оставлена обратная связь
+  createdAt   DateTime @default(now()) // Дата и время создания записи
+  updatedAt   DateTime @updatedAt // Дата и время последнего обновления записи
+}
+
+// Перечисление для ролей пользователей
+enum UserRole {
+  RECRUITER // Рекрутер
+  CANDIDATE // Кандидат
+}
+
+// Перечисление для уровней сложности задач
+enum Difficulty {
+  EASY // Легкая
+  MEDIUM // Средняя
+  HARD // Сложная
+}
