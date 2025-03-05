@@ -42,20 +42,11 @@ export class CreateSessionDto {
   duration: number
 
   @ApiProperty({
-    description: 'Массив email кандидатов, участвующих в сессии',
-    type: [String],
+    description: 'Массив участников (кандидаты и интервьюеры)',
+    type: () => [ParticipantDto],
   })
   @IsArray()
-  @IsEmail({}, { each: true })
-  candidates: string[]
-
-  @ApiProperty({
-    description: 'Массив email сотрудников, участвующих в сессии',
-    type: [String],
-  })
-  @IsArray()
-  @IsEmail({}, { each: true })
-  employees: string[]
+  participants: ParticipantDto[]
 
   @ApiProperty({
     description: 'Массив ID задач, связанных с сессией',
@@ -63,4 +54,22 @@ export class CreateSessionDto {
   })
   @IsArray()
   tasks: string[]
+}
+
+export class ParticipantDto {
+  @ApiProperty({
+    description: 'Email участника',
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string
+
+  @ApiProperty({
+    description: 'Полное имя участника',
+    type: String,
+  })
+  @IsNotEmpty()
+  @IsString()
+  full_name: string
 }

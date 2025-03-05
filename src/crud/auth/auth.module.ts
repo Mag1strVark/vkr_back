@@ -9,5 +9,6 @@ import { Module } from '@nestjs/common'
   imports: [RedisModule],
   controllers: [AuthenticationController],
   providers: [AuthService, RefreshService, AuthRepository],
+  exports: [AuthRepository, AuthService],
 })
 export class AuthModule {}

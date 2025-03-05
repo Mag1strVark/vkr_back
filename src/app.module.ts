@@ -6,6 +6,7 @@ import { AuthModule } from './crud/auth/auth.module'
 import { JwtModule } from './utils/jwt/jwt.module'
 import { ConfigModule } from '@nestjs/config'
 import { Module } from '@nestjs/common'
+import { TaskModule } from './crud/task/task.module'
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { Module } from '@nestjs/common'
     }),
     ResponseBuilderModule,
     PostgresModule,
+    TaskModule,
     SessionModule,
     RedisModule,
     AuthModule,

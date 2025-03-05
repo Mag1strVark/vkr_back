@@ -1,12 +1,16 @@
 -- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('RECRUITER', 'CANDIDATE');
+CREATE TYPE "UserRole" AS ENUM ('HR', 'INTERVIEWER', 'CANDIDATE');
 
 -- CreateEnum
 CREATE TYPE "Difficulty" AS ENUM ('EASY', 'MEDIUM', 'HARD');
 
+-- CreateEnum
+CREATE TYPE "InterviewStatus" AS ENUM ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELED');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "full_name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "role" "UserRole" NOT NULL,
@@ -25,6 +29,7 @@ CREATE TABLE "Session" (
     "createdById" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "status" "InterviewStatus" NOT NULL DEFAULT 'SCHEDULED',
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
