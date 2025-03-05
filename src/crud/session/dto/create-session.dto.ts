@@ -1,4 +1,11 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator'
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsArray,
+  IsEmail,
+} from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateSessionDto {
@@ -35,18 +42,25 @@ export class CreateSessionDto {
   duration: number
 
   @ApiProperty({
-    description: 'Массив ID кандидатов, участвующих в сессии',
+    description: 'Массив email кандидатов, участвующих в сессии',
     type: [String],
   })
-  @IsNotEmpty()
   @IsArray()
+  @IsEmail({}, { each: true })
   candidates: string[]
+
+  @ApiProperty({
+    description: 'Массив email сотрудников, участвующих в сессии',
+    type: [String],
+  })
+  @IsArray()
+  @IsEmail({}, { each: true })
+  employees: string[]
 
   @ApiProperty({
     description: 'Массив ID задач, связанных с сессией',
     type: [String],
   })
-  @IsNotEmpty()
   @IsArray()
   tasks: string[]
 }

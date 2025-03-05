@@ -22,4 +22,28 @@ export class SessionRepository {
       },
     })
   }
+
+  async update(id: string, dto: CreateSessionDto) {
+    return this.postgres.session.update({
+      where: { id },
+      data: {
+        title: dto.title,
+        startTime: new Date(dto.startTime),
+        duration: dto.duration,
+        createdById: dto.recruiter_id,
+        candidates: {
+          connect: dto.candidates.map((id) => ({ id })),
+        },
+        tasks: {
+          connect: dto.tasks.map((id) => ({ id })),
+        },
+      },
+    })
+  }
+
+  async delete(id: string) {
+    return this.postgres.session.delete({
+      where: { id },
+    })
+  }
 }
