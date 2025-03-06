@@ -14,6 +14,23 @@ export class TaskService {
     return this.taskRepository.findAll()
   }
 
+  async runTestCode(language: string, code: string) {
+    const url = 'http://localhost:3000/run'
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ language, code }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Ошибка: ${response.statusText}`)
+    }
+
+    return await response.json()
+  }
+
   async findById(id: string) {
     const task = await this.taskRepository.findById(id)
     if (!task) {

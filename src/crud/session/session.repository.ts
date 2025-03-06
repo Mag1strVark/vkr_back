@@ -112,6 +112,15 @@ export class SessionRepository {
     })
   }
 
+  updateActive(id: string, active: boolean) {
+    return this.postgres.session.update({
+      where: { id },
+      data: {
+        isActive: active,
+      },
+    })
+  }
+
   delete(id: string) {
     return this.postgres.session.delete({
       where: { id },

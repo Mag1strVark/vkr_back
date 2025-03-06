@@ -36,6 +36,7 @@ model Session {
   updatedAt    DateTime        @updatedAt // Дата и время последнего обновления записи
   feedbacks    Feedback[] // Обратная связь, оставленная по этой сессии
   status       InterviewStatus @default(SCHEDULED) // Добавлено поле статуса
+  isActive     Boolean         @default(false) // Поле для отслеживания активности сессии
 }
 
 model Task {

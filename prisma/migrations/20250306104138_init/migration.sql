@@ -30,6 +30,7 @@ CREATE TABLE "Session" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "status" "InterviewStatus" NOT NULL DEFAULT 'SCHEDULED',
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
@@ -38,6 +39,8 @@ CREATE TABLE "Session" (
 CREATE TABLE "Task" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "correctAnswer" JSONB NOT NULL,
     "description" TEXT NOT NULL,
     "difficulty" "Difficulty" NOT NULL,
     "sessionId" TEXT,

@@ -5,6 +5,8 @@ import {
   IsString,
   IsArray,
   IsEmail,
+  IsBoolean,
+  IsOptional,
 } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
@@ -72,4 +74,12 @@ export class ParticipantDto {
   @IsNotEmpty()
   @IsString()
   full_name: string
+
+  @ApiProperty({
+    description: 'Активна ли сессия',
+    type: Boolean,
+  })
+  @IsOptional()
+  @IsBoolean()
+  isActive?: boolean
 }

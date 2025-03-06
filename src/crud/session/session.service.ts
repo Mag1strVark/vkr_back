@@ -66,6 +66,22 @@ export class SessionService {
     return this.sessionRepository.findById(id)
   }
 
+  async startSession(sessionId: string) {
+    const session = await this.sessionRepository.findById(sessionId)
+    if (!session) {
+      throw new NotFoundException(`Session with ID ${sessionId} not found`)
+    }
+    await this.sessionRepository.updateActive(sessionId, true)
+  }
+
+  async endSession(sessionId: string) {
+    const session = await this.sessionRepository.findById(sessionId)
+    if (!session) {
+      throw new NotFoundException(`Session with ID ${sessionId} not found`)
+    }
+    await this.sessionRepository.updateActive(sessionId, true)
+  }
+
   private async _sendInvitations(
     participants: ParticipantDto[],
     session: any,
