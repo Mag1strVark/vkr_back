@@ -27,12 +27,7 @@ export class AuthenticationController {
   @Post('login')
   async signIn(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     try {
-      const resp = await this.authService.login(dto, res)
-      return this.responseBuilder.build<ILogin>({
-        statusCode: HttpStatus.OK,
-        message: 'Авторизация прошла успешно',
-        data: resp,
-      })
+      return await this.authService.login(dto, res)
     } catch (error) {
       throw new HttpException(error.response, error.status)
     }
@@ -42,12 +37,7 @@ export class AuthenticationController {
   @Post('register')
   async signUp(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
     try {
-      const resp = await this.authService.register(dto, res)
-      return this.responseBuilder.build<ILogin>({
-        statusCode: HttpStatus.OK,
-        message: 'Регистрация прошла успешно',
-        data: resp,
-      })
+      return await this.authService.register(dto, res)
     } catch (error) {
       throw new HttpException(error.response, error.status)
     }
@@ -58,12 +48,7 @@ export class AuthenticationController {
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     try {
       const refreshToken = req.cookies.refreshToken
-      const resp = await this.authService.refresh(refreshToken, res)
-      return this.responseBuilder.build<ILogin>({
-        statusCode: HttpStatus.OK,
-        message: 'Токены обновлены',
-        data: resp,
-      })
+      return await this.authService.refresh(refreshToken, res)
     } catch (error) {
       throw new HttpException(error.response, error.status)
     }
