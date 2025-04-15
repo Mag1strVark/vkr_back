@@ -9,3 +9,6 @@ migrate:
 
 generate:
 	yarn prisma generate
+
+studio:
+	yarn prisma studio

@@ -7,6 +7,10 @@ import { JwtModule } from './utils/jwt/jwt.module'
 import { ConfigModule } from '@nestjs/config'
 import { Module } from '@nestjs/common'
 import { TaskModule } from './crud/task/task.module'
+import { QuestionModule } from './crud/question/question.module'
+import { FinalTestModule } from './crud/finalTest/finalTest.module'
+import { CandidateInterviewModule } from './crud/сandidateInterview/сandidateInterview.module'
+import { InterviewModule } from './crud/interview/interview.module'
 
 @Module({
   imports: [
@@ -14,12 +18,17 @@ import { TaskModule } from './crud/task/task.module'
       envFilePath: `.env`,
       isGlobal: true,
     }),
+    CandidateInterviewModule,
+    CandidateInterviewModule,
     ResponseBuilderModule,
+    FinalTestModule,
+    InterviewModule,
     PostgresModule,
-    TaskModule,
+    QuestionModule,
     SessionModule,
     RedisModule,
     AuthModule,
+    TaskModule,
     JwtModule,
   ],
 })

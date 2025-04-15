@@ -10,8 +10,8 @@ export class TaskService {
     return this.taskRepository.create(createTaskDto)
   }
 
-  async findAll() {
-    return this.taskRepository.findAll()
+  async findAll(category?: string, userId?: string) {
+    return this.taskRepository.findAll(category, userId)
   }
 
   async runTestCode(language: string, code: string) {

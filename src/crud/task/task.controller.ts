@@ -8,24 +8,25 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common'
 import { TaskService } from './task.service'
 import { CreateTaskDto } from './dto/create-task.dto'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '../../utils/jwtAuthGuard/jwtAuthGuard'
 import { RolesGuard } from '../../utils/roleGuard/roles.guard'
 import { Roles } from '../../utils/roleGuard/role-auth.decorator'
 
 @ApiTags('Задачи')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth()
+@Roles(['HR', 'INTERVIEWER'])
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @ApiOperation({ summary: 'Создать новую задачу' })
-  @UseGuards(RolesGuard)
-  @Roles(['INTERVIEWER'])
   @Post()
   async create(@Body() createTaskDto: CreateTaskDto) {
     try {
@@ -41,12 +42,10 @@ export class TaskController {
   }
 
   @ApiOperation({ summary: 'Получить список всех задач' })
-  @UseGuards(RolesGuard)
-  @Roles(['INTERVIEWER'])
   @Get()
-  async findAll() {
+  async findAll(@Query('category') category?: string, @Query('userId') userId?: string) {
     try {
-      const tasks = await this.taskService.findAll()
+      const tasks = await this.taskService.findAll(category, userId)
       return {
         statusCode: HttpStatus.OK,
         message: 'Задачи успешно получены',
@@ -58,8 +57,6 @@ export class TaskController {
   }
 
   @ApiOperation({ summary: 'Получить задачу по ID' })
-  @UseGuards(RolesGuard)
-  @Roles(['INTERVIEWER', 'CANDIDATE'])
   @Get(':id')
   async findById(@Param('id') id: string) {
     try {
@@ -75,8 +72,6 @@ export class TaskController {
   }
 
   @ApiOperation({ summary: 'Обновить задачу' })
-  @UseGuards(RolesGuard)
-  @Roles(['INTERVIEWER'])
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateTaskDto: CreateTaskDto) {
     try {
@@ -92,8 +87,6 @@ export class TaskController {
   }
 
   @ApiOperation({ summary: 'Удалить задачу' })
-  @UseGuards(RolesGuard)
-  @Roles(['INTERVIEWER'])
   @Delete(':id')
   async delete(@Param('id') id: string) {
     try {

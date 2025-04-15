@@ -27,7 +27,19 @@ export class TaskRepository {
     return this.postgres.task.delete({ where: { id } })
   }
 
-  findAll() {
-    return this.postgres.task.findMany()
+  async findAll(category?: string, userId?: string) {
+    const where: any = {}
+
+    if (category) {
+      where.categoryName = category
+    }
+
+    if (userId) {
+      where.userId = userId
+    }
+
+    return this.postgres.task.findMany({
+      where,
+    })
   }
 }

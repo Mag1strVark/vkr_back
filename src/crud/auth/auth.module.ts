@@ -5,10 +5,15 @@ import { AuthService } from './service/auth.service'
 import { AuthRepository } from './auth.repository'
 import { Module } from '@nestjs/common'
 
+/**
+ * Модуль аутентификации (AuthModule).
+ *
+ * Этот модуль объединяет контроллеры и сервисы, необходимые для аутентификации пользователей.
+ */
 @Module({
-  imports: [RedisModule],
-  controllers: [AuthenticationController],
-  providers: [AuthService, RefreshService, AuthRepository],
-  exports: [AuthRepository, AuthService],
+  imports: [RedisModule], // Импорт модуля Redis для работы с токенами
+  controllers: [AuthenticationController], // Контроллер для обработки запросов аутентификации
+  providers: [AuthService, RefreshService, AuthRepository], // Сервисы и репозиторий для аутентификации
+  exports: [AuthRepository, AuthService], // Экспортируемые сервисы для использования в других модулях
 })
 export class AuthModule {}
