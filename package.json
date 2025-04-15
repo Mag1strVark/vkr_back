@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "init:prod": "yarn prisma migrate dev --name init && yarn prisma generate && yarn build && yarn start:prod",
     "init:dev": "docker compose up --build -d && yarn prisma migrate dev --name init && yarn prisma generate && yarn start:dev",
     "doc": "compodoc -p tsconfig.json --language ru-RU -s",
     "compodoc": "compodoc -p tsconfig.json",
