@@ -26,19 +26,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Cleanup') {
-            steps {
-                script {
-                    // Stop and remove containers
-                    sh "docker stop ${SERVER_CONTAINER} || true"
-                    sh "docker rm ${SERVER_CONTAINER} || true"
-                    sh "docker stop ${POSTGRES_CONTAINER} || true"
-                    sh "docker rm ${POSTGRES_CONTAINER} || true"
-                    sh "docker stop ${REDIS_CONTAINER} || true"
-                    sh "docker rm ${REDIS_CONTAINER} || true"
-                }
-            }
-        }
     }
 }
