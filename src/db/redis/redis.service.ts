@@ -22,7 +22,7 @@ export class RedisService {
     //   port: Number(process.env.REDIS_PORT), // Порт Redis
     // })
     this.redis = new Redis({
-      host: 'localhost', // Хост Redis
+      host: 'redis', // Хост Redis
       port: 6379, // Порт Redis
     })
   }
