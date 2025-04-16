@@ -17,9 +17,13 @@ export class RedisService {
    * Использует переменные окружения для получения хоста и порта Redis.
    */
   constructor() {
+    // this.redis = new Redis({
+    //   host: process.env.REDIS_HOST, // Хост Redis
+    //   port: Number(process.env.REDIS_PORT), // Порт Redis
+    // })
     this.redis = new Redis({
-      host: process.env.REDIS_HOST, // Хост Redis
-      port: Number(process.env.REDIS_PORT), // Порт Redis
+      host: 'localhost', // Хост Redis
+      port: 6379, // Порт Redis
     })
   }
 
