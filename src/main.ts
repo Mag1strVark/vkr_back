@@ -16,7 +16,7 @@ async function bootstrap() {
     credentials: true,
   })
   app.use(function (_: Request, response: Response, next: NextFunction) {
-    response.setHeader('Access-Control-Allow-Origin', process.env.URL_CLIENT)
+    response.setHeader('Access-Control-Allow-Origin', 'http://45.93.201.160:3000')
     next()
   })
   app.useGlobalPipes(
@@ -36,7 +36,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api/swagger', app, document)
   await app.listen(PORT, () =>
-    console.log(`server started on http://localhost:${PORT}/api/swagger`)
+    console.log(`server started on http://45.93.201.160:${PORT}/api/swagger`)
   )
 }
 bootstrap()
