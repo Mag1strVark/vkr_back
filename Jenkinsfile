@@ -8,6 +8,16 @@ pipeline {
         POSTGRES_USER = 'root'
         POSTGRES_PASSWORD = 'root'
         POSTGRES_DB = 'db'
+        POSTGRES_URL='postgres'
+        POSTGRES_PORT='5432'
+        PORT='10000'
+        REDIS_HOST='redis'
+        REDIS_PORT='6379'
+        JWT_SECRET='qrUFW323rgrth43fewpo'
+        SMTP_USER='molot2102@gmail.com'
+        SMTP_PASSWORD='subasehcogfwhflz'
+        URL_CLIENT='http://45.93.201.160:3000'
+        DATABASE_URL='postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_URL}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public'
     }
 
     stages {
