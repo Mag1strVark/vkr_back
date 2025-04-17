@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty, IsString, IsEnum } from 'class-validator'
-import { Difficulty, Category } from '@prisma/client'
+import { Difficulty, CategoryTask } from '@prisma/client'
 
 export class CreateTaskDto {
   @ApiProperty({
@@ -25,7 +25,7 @@ export class CreateTaskDto {
   })
   @IsNotEmpty()
   @IsString()
-  categoryName: Category
+  categoryName: CategoryTask
 
   @ApiProperty({ description: 'Исходные данные для кода в формате JSON' })
   @IsNotEmpty()

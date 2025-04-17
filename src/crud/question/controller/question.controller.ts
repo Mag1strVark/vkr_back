@@ -10,12 +10,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common'
-import { QuestionService } from './question.service'
-import { CreateQuestionWithGroupDto } from './dto/create-question.dto'
+import { QuestionService } from '../service/question.service'
+import { CreateQuestionWithGroupDto } from '../dto/create-question.dto'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { JwtAuthGuard } from '../../utils/jwtAuthGuard/jwtAuthGuard'
-import { RolesGuard } from '../../utils/roleGuard/roles.guard'
-import { Roles } from '../../utils/roleGuard/role-auth.decorator'
+import { JwtAuthGuard } from '../../../utils/jwtAuthGuard/jwtAuthGuard'
+import { RolesGuard } from '../../../utils/roleGuard/roles.guard'
+import { Roles } from '../../../utils/roleGuard/role-auth.decorator'
 
 /**
  * Контроллер для управления вопросами.

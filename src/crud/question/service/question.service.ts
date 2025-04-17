@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { QuestionRepository } from './question.repository'
-import { CreateQuestionWithGroupDto } from './dto/create-question.dto'
+import { QuestionRepository } from '../repository/question.repository'
+import { CreateQuestionWithGroupDto } from '../dto/create-question.dto'
 
 /**
  * Сервис для управления вопросами.

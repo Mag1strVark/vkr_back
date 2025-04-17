@@ -41,12 +41,12 @@ pipeline {
                     // Start Redis container
                     sh "docker run -d --name ${REDIS_CONTAINER} -p ${REDIS_PORT}:${REDIS_PORT} -v redis-data:/data redis"
 
-                    // Start PostgreSQL container
-                    sh "docker run -d --name ${POSTGRES_CONTAINER} -e POSTGRES_USER=${POSTGRES_USER} -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_DB=${POSTGRES_DB} -p ${POSTGRES_PORT}:${POSTGRES_PORT} -v postgres-data:/var/lib/postgresql/data postgres"
+//                     // Start PostgreSQL container
+//                     sh "docker run -d --name ${POSTGRES_CONTAINER} -e POSTGRES_USER=${POSTGRES_USER} -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} -e POSTGRES_DB=${POSTGRES_DB} -p ${POSTGRES_PORT}:${POSTGRES_PORT} -v postgres-data:/var/lib/postgresql/data postgres"
 
                     // Build and start the server container
                     sh "docker build -t my-server ."
-                    sh "docker run -d --name ${SERVER_CONTAINER} --env-file .env --link ${REDIS_CONTAINER} --link ${POSTGRES_CONTAINER} -p ${PORT}:${PORT} my-server yarn init:prod"
+                    sh "docker run -d --name ${SERVER_CONTAINER} --env-file .env --link ${REDIS_CONTAINER} -p ${PORT}:${PORT} my-server yarn init:prod"
                 }
             }
         }

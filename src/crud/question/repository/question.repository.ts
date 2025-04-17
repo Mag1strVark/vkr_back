@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { PostgresService } from '../../db/postgres/postgres.service'
-import { CreateQuestionWithGroupDto } from './dto/create-question.dto'
+import { PostgresService } from '../../../db/postgres/postgres.service'
+import { CreateQuestionWithGroupDto } from '../dto/create-question.dto'
 
 /**
  * Репозиторий для работы с группами вопросов.
@@ -19,7 +19,9 @@ export class QuestionRepository {
         title: dto.title,
         author: dto.author,
         userId: dto.userId,
-        categoryName: dto.categoryName,
+        categoryName: {
+          connect: { id: dto.categoryName.id }, // Используйте connect для связывания существующей категории
+        },
         questions: {
           create: dto.questions.map((question) => ({
             developerLevel: question.developerLevel,
@@ -44,7 +46,9 @@ export class QuestionRepository {
         title: dto.title,
         author: dto.author,
         userId: dto.userId,
-        categoryName: dto.categoryName,
+        categoryName: {
+          connect: { id: dto.categoryName.id }, // Используйте connect для связывания существующей категории
+        },
         questions: {
           create: dto.questions.map((question) => ({
             developerLevel: question.developerLevel,

@@ -8,14 +8,24 @@ export class TaskRepository {
 
   create(dto: CreateTaskDto) {
     return this.postgres.task.create({
-      data: dto,
+      data: {
+        ...dto,
+        categoryName: {
+          connect: { id: dto.categoryName.id },
+        },
+      },
     })
   }
 
   update(id: string, dto: CreateTaskDto) {
     return this.postgres.task.update({
       where: { id },
-      data: dto,
+      data: {
+        ...dto,
+        categoryName: {
+          connect: { id: dto.categoryName.id },
+        },
+      },
     })
   }
 

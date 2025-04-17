@@ -6,7 +6,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://gen_user:1i9CqAEbm89049@90.156.211.77:5432/default_db?schema=public"
+  // url      = "postgresql://gen_user:1i9CqAEbm89049@90.156.211.77:5432/default_db?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -53,34 +54,52 @@ model FinalTest {
 }
 
 model Task {
-  id            String     @id @default(uuid()) // Уникальный идентификатор задачи
+  id            String       @id @default(uuid()) // Уникальный идентификатор задачи
   userId        String
-  categoryName  Category
+  categoryName  CategoryTask @relation(fields: [categoryId], references: [id])
+  categoryId    String
   title         String // Название задачи
   correctAnswer Json // Правильный ответ
   description   String // Описание задачи
   inputData     Json // Исходные данные для кода
   sourceCode    String // Исходный код
   difficulty    Difficulty // Уровень сложности задачи (легкая, средняя, сложная)
-  session       Session?   @relation("SessionTasks", fields: [sessionId], references: [id]) // Сессия, к которой относится задача
+  session       Session?     @relation("SessionTasks", fields: [sessionId], references: [id]) // Сессия, к которой относится задача
   sessionId     String? // ID сессии, к которой относится задача (может быть null)
   solutions     Solution[] // Решения, предоставленные кандидатами для этой задачи (необязательное поле)
-  createdAt     DateTime   @default(now()) // Дата и время создания записи
-  updatedAt     DateTime   @updatedAt // Дата и время последнего обновления записи
-  Interview     Interview? @relation("InterviewTasks", fields: [interviewId], references: [id])
+  createdAt     DateTime     @default(now()) // Дата и время создания записи
+  updatedAt     DateTime     @updatedAt // Дата и время последнего обновления записи
+  Interview     Interview?   @relation("InterviewTasks", fields: [interviewId], references: [id])
   interviewId   String?
 }
 
+model CategoryTask {
+  id        String   @id @default(uuid()) // Уникальный идентификатор категории
+  name      String   @unique // Название категории (должно быть уникальным)
+  createdAt DateTime @default(now()) // Дата и время создания записи
+  updatedAt DateTime @updatedAt // Дата и время последнего обновления записи
+  task      Task[] // Связанные группы вопросов
+}
+
+model CategoryQuestion {
+  id             String          @id @default(uuid()) // Уникальный идентификатор категории
+  name           String          @unique // Название категории (должно быть уникальным)
+  createdAt      DateTime        @default(now()) // Дата и время создания записи
+  updatedAt      DateTime        @updatedAt // Дата и время последнего обновления записи
+  questionGroups QuestionGroup[] // Связанные группы вопросов
+}
+
 model QuestionGroup {
-  id           String     @id @default(uuid()) // Уникальный идентификатор группы вопросов
+  id           String           @id @default(uuid()) // Уникальный идентификатор группы вопросов
   userId       String
-  categoryName Category
+  categoryName CategoryQuestion @relation(fields: [categoryId], references: [id])
+  categoryId   String
   title        String // Название группы вопросов
   author       String // Автор группы вопросов
   questions    Question[] // Список вопросов в группе
-  createdAt    DateTime   @default(now()) // Дата и время создания записи
-  updatedAt    DateTime   @updatedAt // Дата и время последнего обновления записи
-  FinalTest    FinalTest? @relation("FinalTestQuestions", fields: [finalTestId], references: [id])
+  createdAt    DateTime         @default(now()) // Дата и время создания записи
+  updatedAt    DateTime         @updatedAt // Дата и время последнего обновления записи
+  FinalTest    FinalTest?       @relation("FinalTestQuestions", fields: [finalTestId], references: [id])
   finalTestId  String?
 }
 
@@ -156,6 +175,7 @@ enum UserRole {
   HR // HR-менджер
   INTERVIEWER // Собеседующий
   CANDIDATE // Кандидат
+  TEACHER
 }
 
 // Перечисление для уровней сложности задач
@@ -170,12 +190,6 @@ enum InterviewStatus {
   IN_PROGRESS // В процессе
   COMPLETED // Завершён
   CANCELED // Отменён
-}
-
-enum Category {
-  FRONTEND
-  BACKEND
-  QA
 }
 
 // Перечисление для этапов собеседования

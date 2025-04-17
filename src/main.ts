@@ -16,7 +16,8 @@ async function bootstrap() {
     credentials: true,
   })
   app.use(function (_: Request, response: Response, next: NextFunction) {
-    response.setHeader('Access-Control-Allow-Origin', 'http://45.93.201.160')
+    // response.setHeader('Access-Control-Allow-Origin', 'http://45.93.201.160')
+    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
     next()
   })
   app.useGlobalPipes(

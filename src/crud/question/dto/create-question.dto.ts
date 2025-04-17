@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty, IsString, IsArray, ArrayNotEmpty } from 'class-validator'
-import { Category } from '@prisma/client'
+import { CategoryQuestion } from '@prisma/client'
 
 /**
  * DTO для вопроса.
@@ -72,7 +72,7 @@ export class CreateQuestionWithGroupDto {
   @ApiProperty({ description: 'Категория группы вопросов' })
   @IsNotEmpty()
   @IsString()
-  categoryName: Category // Добавлено поле categoryName
+  categoryName: CategoryQuestion // Добавлено поле categoryName
 
   /**
    * Список вопросов в группе.
