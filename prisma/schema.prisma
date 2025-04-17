@@ -6,8 +6,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = "postgresql://gen_user:1i9CqAEbm89049@90.156.211.77:5432/default_db?schema=public"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://gen_user:1i9CqAEbm89049@90.156.211.77:5432/default_db?schema=public"
+  // url      = env("DATABASE_URL")
 }
 
 model User {
